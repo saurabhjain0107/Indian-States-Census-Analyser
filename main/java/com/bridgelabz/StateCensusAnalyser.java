@@ -22,7 +22,6 @@ public class StateCensusAnalyser {
         String[] header = stateCensus.get(0);
         if (!header[0].equals("State") || !header[1].equals("Population"))
             throw new CensusAnalyserException("header mismatch");
-
         stateCensus.remove(header);
         for (String[] data : stateCensus) {
             if (data.length < 2) throw new CensusAnalyserException("Incorrect Delimiter");
@@ -31,14 +30,14 @@ public class StateCensusAnalyser {
         return csvStateCensuses.size();
     }
 
-    public int loadStates(File file) throws CensusAnalyserException, IOException, CsvException {
+    public static int loadStates(File file) throws CensusAnalyserException, IOException, CsvException {
         checkInputFile(file);
         FileReader fileReader = new FileReader(file);
         CSVReader csvReader = new CSVReader(fileReader);
 
         List<String[]> states = csvReader.readAll();
         String[] header = states.get(0);
-        if (!header[1].equals("State/ UT") || !header[2].equals("Abbreviation"))
+        if (header[1].equals("State/ UT") || header[2].equals("Abbreviation"))
             throw new CensusAnalyserException("header mismatch");
 
         states.remove(header);
